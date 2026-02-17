@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Secret Message</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Amiri&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #4a0d13; 
+            --envelope-color: #c4a484; 
+            --envelope-dark: #b59575;
+            --paper-bg: #fdf5e6;
+            --wax-color: #6b0f1a; 
+        }
+
+        body {
+            margin: 0; padding: 0; display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; background-color: var(--bg-color);
+            font-family: 'Amiri', serif; overflow: hidden; flex-direction: column;
+        }
+
+        /* القلوب البيضاء المضيئة المنتشرة في الخلفية */
+        .hearts-bg { position: absolute; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        .heart-static { 
+            position: absolute; color: white; opacity: 0.6; font-size: 25px; 
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .envelope-wrapper {
+            position: relative; z-index: 10;
+            width: 450px; height: 300px; 
+            margin-top: 100px; cursor: pointer;
+        }
+
+        #envelope { position: relative; width: 100%; height: 100%; background: var(--envelope-color); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+
+        .front.flap {
+            position: absolute; top: 0; width: 0; height: 0;
+            border-left: 225px solid transparent; border-right: 225px solid transparent;
+            border-top: 160px solid var(--envelope-color);
+            z-index: 3; transform-origin: top; transition: transform 0.5s ease;
+        }
+
+        .wax-seal {
+            position: absolute; top: 135px; left: 200px; width: 50px; height: 50px;
+            background: var(--wax-color); border-radius: 50%; z-index: 4;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center;
+            transition: all 0.5s ease; border: 1px solid #540b14;
+        }
+        .wax-seal::after { content: "❤"; color: #4a0d13; font-size: 22px; opacity: 0.7; }
+
+        .front.pocket { position: absolute; top: 0; width: 100%; height: 100%; background: var(--envelope-color); z-index: 2; }
+        .front.pocket::after {
+            content: ""; position: absolute; top: 0; left: 0; width: 0; height: 0;
+            border-left: 225px solid var(--envelope-dark); border-right: 225px solid var(--envelope-dark);
+            border-top: 150px solid transparent; border-bottom: 150px solid var(--envelope-dark);
+        }
+
+        /* الكرت الصغير المتطابق مع الصفحة التالية */
+        .mini-card {
+            position: absolute; bottom: 10px; left: 10%;
+            width: 80%; height: 80%; background: var(--paper-bg);
+            z-index: 1; transition: transform 0.6s ease;
+            padding: 15px; box-sizing: border-box; text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .mini-card h2 { font-family: 'Dancing Script', cursive; font-size: 1.2rem; color: #8b1a24; margin: 0; }
+
+        /* --- تأثير القلوب البيضاء المضيئة عند الفتح --- */
+       /* تصميم القلب الضبابي المضيء مثل الصورة */
+.decoration-heart {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.7); /* لون أبيض شفاف */
+    transform: rotate(-45deg);
+    z-index: 15;
+    pointer-events: none;
+    filter: blur(1px) drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)); /* التوهج والضبابية */
+}
+
+.decoration-heart::before,
+.decoration-heart::after {
+    content: "";
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+}
+
+.decoration-heart::before {
+    top: -20px;
+    left: 0;
+}
+
+.decoration-heart::after {
+    left: 20px;
+    top: 0;
+}
+
+/* حركة الطيران مع التلاشي */
+@keyframes floatUpAndGlow {
+    0% { transform: translateY(0) rotate(-45deg) scale(0.5); opacity: 0; }
+    30% { opacity: 0.8; }
+    100% { transform: translateY(-300px) rotate(-45deg) scale(1.5); opacity: 0; }
+}
+
+        /* حركة الفتح */
+        #envelope.open .front.flap { transform: rotateX(180deg); z-index: 0; }
+        #envelope.open .mini-card { transform: translateY(-130px); z-index: 2; }
+        #envelope.open .wax-seal { transform: translateY(-130px) rotate(15deg); opacity: 0; }
+
+        .hint { color: white; margin-top: 25px; font-size: 0.9rem; opacity: 0.7; font-family: sans-serif; }
+
+        @media (max-width: 480px) {
+            .envelope-wrapper { width: 300px; height: 200px; }
+            .front.flap { border-left: 150px solid transparent; border-right: 150px solid transparent; border-top: 110px solid var(--envelope-color); }
+            .wax-seal { left: 125px; top: 90px; }
+        }
+/* هذا الجزء يضبط العناصر لجميع الأجهزة */
+@media (max-width: 768px) {
+    /* 1. يجعل الحاويات مرنة وتأخذ عرض الشاشة */
+    .main-card, .container, .paper {
+        width: 95% !important;
+        flex-direction: column !important; /* يخلي العناصر فوق بعض في الجوال */
+        height: auto !important;
+        margin: 20px auto !important;
+        padding: 15px !important;
+    }
+
+    /* 2. يضبط حجم الصور والفيديو لتناسب الجوال */
+    .left-panel, .right-panel, .video-box {
+        width: 100% !important;
+        height: auto !important;
+        min-height: 250px !important;
+    }
+
+    /* 3. يضبط حجم الخطوط عشان ما تطلع برا الشاشة */
+    h1, .main-text {
+        font-size: 1.8rem !important;
+    }
+
+    /* 4. يثبت السهم في مكان مريح لليد في الجوال */
+    .floating-arrow {
+        width: 50px !important;
+        height: 50px !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        font-size: 1.2rem !important;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <div class="hearts-bg">
+        <span class="heart-static" style="top:15%; left:10%;">🤍</span>
+        <span class="heart-static" style="top:25%; left:85%;">🤍</span>
+        <span class="heart-static" style="top:70%; left:15%;">🤍</span>
+        <span class="heart-static" style="top:85%; left:80%;">🤍</span>
+        <span class="heart-static" style="top:50%; left:5%;">🤍</span>
+        <span class="heart-static" style="top:10%; left:50%;">🤍</span>
+    </div>
+
+    <div class="envelope-wrapper">
+        <div id="envelope" class="close">
+            <div class="front flap"></div>
+            <div class="front pocket"></div>
+            <div class="wax-seal"></div>
+            <div class="mini-card">
+                <h2>My one and only❤️...</h2>
+                <p style="font-size: 0.8rem; color: #555;"> I just wanna say thank you for being my home for making me happy for always making me smile, and for making me feel loved. you make my days brighter and my heart calmer. with you...
+</p>
+            </div>
+        </div>
+    </div>
+
+    <p class="hint">(Click on the letter to read it)</p>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var envelope = $('#envelope');
+            var isOpen = false;
+
+            $(".wax-seal, #envelope").click(function(e) {
+                if (!isOpen) {
+                    envelope.addClass("open");
+                    isOpen = true;
+                    createWhiteHearts(); // تشغيل القلوب المضيئة
+                    e.stopPropagation();
+                } else {
+                    goToMessage();
+                }
+            });
+
+            // صنع قلوب بيضاء مضيئة تطير للأعلى
+           function createWhiteHearts() {
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+            const heart = $('<div class="decoration-heart"></div>'); // فارغ لأننا صممناه بالـ CSS
+            const startLeft = 100 + Math.random() * 250;
+            
+            heart.css({
+                left: startLeft + 'px',
+                top: '200px',
+                animation: 'floatUpAndGlow 3s forwards',
+                opacity: (Math.random() * 0.5 + 0.5) // عشوائية في الشفافية
+            });
+            
+            $('.envelope-wrapper').append(heart);
+            setTimeout(() => heart.remove(), 3000);
+        }, i * 150);
+    }
+}
+                
+            function goToMessage() {
+                document.body.style.transition = "opacity 0.8s ease";
+                document.body.style.opacity = "0";
+                setTimeout(() => {
+                    window.location.href = "message.html";
+                }, 800);
+            }
+        });
+    </script>
+<audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    var audio = document.getElementById("bgMusic");
+    
+    // استرجاع الوقت من الصفحة السابقة
+    var savedTime = sessionStorage.getItem('musicTime');
+    if (savedTime) {
+        audio.currentTime = parseFloat(savedTime);
+    }
+
+    // استمرار حفظ الوقت
+    setInterval(function() {
+        sessionStorage.setItem('musicTime', audio.currentTime);
+    }, 100);
+
+    // تشغيل تلقائي بما أنه تفاعل مع الصفحة الأولى
+    audio.play().catch(function() {
+        // إذا المتصفح منع التشغيل، تشتغل مع أول لمسة
+        document.addEventListener('click', () => audio.play(), {once: true});
+    });
+</script>
+<style>
+  /* إخفاء السهم الأصلي لتجربة أفضل */
+  body { cursor: crosshair; } 
+
+  .glowing-heart {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    /* اللون أبيض والتوهج أبيض ناصع */
+    color: #ffffff; 
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff; 
+    font-size: 18px;
+    animation: fadeAndUp 0.8s ease-out forwards;
+    user-select: none;
+  }
+
+  @keyframes fadeAndUp {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      /* ترتفع وتتحرك قليلاً لليمين بشكل عشوائي */
+      transform: translate(10px, -60px) scale(0.3);
+    }
+  }
+
+  /* إخفاء التأثير في الجوال لراحة المستخدم */
+  @media (max-width: 768px) {
+    .glowing-heart { display: none; }
+    body { cursor: auto; }
+  }
+</style>
+
+<script>
+  document.addEventListener('mousemove', function(e) {
+    const heart = document.createElement('div');
+    // استخدمت إيموجي القلب الأبيض ليعطيكِ اللون الأبيض الصافي
+    heart.innerHTML = '🤍'; 
+    heart.className = 'glowing-heart';
+    
+    // وضع القلب في مكان الماوس بالضبط
+    heart.style.left = (e.clientX - 10) + 'px';
+    heart.style.top = (e.clientY - 10) + 'px';
+    
+    // أحجام عشوائية بسيطة لتبدو كالنجوم
+    const size = Math.random() * 12 + 8;
+    heart.style.fontSize = size + 'px';
+    
+    document.body.appendChild(heart);
+    
+    // حذفها بعد انتهاء الحركة
+    setTimeout(() => {
+      heart.remove();
+    }, 800);
+  });
+</script>
+</body>
+</html>

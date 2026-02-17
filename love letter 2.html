@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Secret Message</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #4a0d13; /* اللون العنابي الأصلي */
+            --envelope-color: #c4a484; /* لون ورق الكرافت البني */
+            --envelope-dark: #a68a6d;
+            --letter-bg: #fdf5e6; /* لون الورقة داخل الظرف */
+            --text-color: #000000; /* الخط أسود كما طلبتِ */
+        }
+
+        body {
+            margin: 0; padding: 0; display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; background-color: var(--bg-color);
+            font-family: 'Dancing Script', cursive; overflow: hidden;
+            flex-direction: column;
+        }
+
+        /* القلوب البيضاء في الخلفية */
+        .hearts-bg {
+            position: absolute; width: 100%; height: 100%; z-index: 1; pointer-events: none;
+        }
+        .heart-static { position: absolute; color: white; opacity: 0.8; }
+
+        .envelope-wrapper {
+            position: relative; cursor: pointer; z-index: 10;
+        }
+
+        #envelope {
+            position: relative; width: 300px; height: 200px;
+            background: var(--envelope-color);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        /* غطاء الظرف */
+        .front.flap {
+            position: absolute; top: 0; width: 0; height: 0;
+            border-left: 150px solid transparent; border-right: 150px solid transparent;
+            border-top: 100px solid var(--envelope-color);
+            z-index: 3; transform-origin: top; transition: transform 0.4s ease;
+        }
+
+        /* جيب الظرف */
+        .front.pocket {
+            position: absolute; top: 0; width: 300px; height: 200px;
+            background: var(--envelope-color);
+            border-top: 100px solid transparent;
+            z-index: 2;
+        }
+
+        .front.pocket::after {
+            content: ""; position: absolute; bottom: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 150px solid var(--envelope-dark);
+            border-right: 150px solid var(--envelope-dark);
+            border-top: 100px solid transparent;
+            border-bottom: 100px solid var(--envelope-dark);
+        }
+
+        /* الورقة داخل الظرف */
+        .letter {
+            position: absolute; bottom: 0; left: 10px;
+            width: 280px; height: 180px; background: var(--letter-bg);
+            z-index: 1; transition: transform 0.5s ease;
+            padding: 20px; box-sizing: border-box; text-align: center;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+        }
+
+        .words {
+            font-family: 'Great Vibes', cursive;
+            color: var(--text-color);
+            font-size: 1.2rem; line-height: 1.4; margin: 5px 0;
+        }
+
+        /* حركة الفتح */
+        #envelope.open .front.flap {
+            transform: rotateX(180deg); z-index: 1;
+        }
+
+        #envelope.open .letter {
+            transform: translateY(-120px); z-index: 2;
+        }
+
+        /* الأزرار */
+        .reset {
+            margin-top: 50px; z-index: 10;
+        }
+
+        button {
+            padding: 12px 30px; font-size: 1rem; border: none;
+            border-radius: 4px; cursor: pointer; margin: 0 10px;
+            background-color: #1a1a1a; color: white;
+            font-family: 'Arial', sans-serif; transition: 0.3s;
+        }
+
+        button:hover { background-color: #8b1a24; }
+
+        /* قلوب صغيرة تخرج عند الفتح */
+        .hearts { position: absolute; top: 50%; left: 50%; z-index: 4; }
+        .heart-float {
+            position: absolute; bottom: 0; color: #8b1a24; opacity: 0;
+        }
+
+        #envelope.open .heart-float { animation: floatUp 2s ease-out forwards; }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-150px) scale(1.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hearts-bg">
+        <span class="heart-static" style="top:10%; left:10%;">❤️</span>
+        <span class="heart-static" style="top:20%; left:80%;">❤️</span>
+        <span class="heart-static" style="top:70%; left:15%;">❤️</span>
+        <span class="heart-static" style="top:85%; left:85%;">❤️</span>
+    </div>
+
+    <div class="envelope-wrapper">
+        <div id="envelope" class="close">
+            <div class="front flap"></div>
+            <div class="front pocket"></div>
+            <div class="letter">
+                <div class="words">To My Heart,</div>
+                <div class="words" style="font-size: 1.5rem;">You are the best thing</div>
+                <div class="words">that ever happened to me.</div>
+                <div class="words">I love you! ❤️</div>
+            </div>
+            <div class="hearts">
+                <div class="heart-float" style="left:-20px; animation-delay: 0.2s;">❤️</div>
+                <div class="heart-float" style="left:0px; animation-delay: 0.4s;">❤️</div>
+                <div class="heart-float" style="left:20px; animation-delay: 0.6s;">❤️</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="reset">
+        <button id="open">Open</button>
+        <button id="reset">Close</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var envelope = $('#envelope');
+            var btn_open = $("#open");
+            var btn_reset = $("#reset");
+
+            // فتح الظرف عند الضغط عليه أو على الزر
+            envelope.click(function() { open(); });
+            btn_open.click(function() { open(); });
+            btn_reset.click(function() { close(); });
+
+            function open() {
+                envelope.addClass("open").removeClass("close");
+            }
+
+            function close() {
+                envelope.addClass("close").removeClass("open");
+            }
+        });
+    </script>
+</body>
+</html>

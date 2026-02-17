@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Long Letter to You</title>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Amiri&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #4a0d13;
+            display: flex; justify-content: center; align-items: flex-start;
+            min-height: 100vh; margin: 0; padding: 40px 20px;
+            box-sizing: border-box; font-family: 'Amiri', serif;
+            opacity: 0; transition: opacity 2s ease;
+            position: relative;
+        }
+        .paper {
+            background-color: #fdf5e6;
+            width: 100%; max-width: 600px;
+            padding: 50px; border-radius: 2px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            line-height: 1.8; color: #000000;
+            font-size: 1.3rem; 
+            text-align: left; direction: ltr;
+            position: relative; z-index: 10;
+        }
+        .paper::before { 
+            content: ""; position: absolute; top: 0; left: 20px;
+            bottom: 0; width: 2px; background: rgba(139, 26, 36, 0.1);
+        }
+        h2 { font-family: 'Dancing Script', cursive; text-align: center; color: #8b1a24; }
+        .signature { 
+            text-align: right; 
+            font-family: 'Dancing Script', cursive; 
+            font-size: 2rem; margin-top: 40px; 
+        }
+
+        /* سهم التنقل الجانبي */
+        .side-arrow {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 55px;
+            height: 55px;
+            background-color: #8b1a1a;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            z-index: 1000;
+            transition: 0.3s ease;
+        }
+        .side-arrow:hover {
+            transform: scale(1.1);
+            background-color: #a52323;
+        }
+
+        .mouse-heart {
+            position: absolute;
+            width: 15px; height: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            transform: rotate(-45deg);
+            pointer-events: none; z-index: 9999;
+            filter: blur(1px) drop-shadow(0 0 5px white);
+            animation: fadeOutHeart 1s forwards;
+        }
+        .mouse-heart::before, .mouse-heart::after {
+            content: ""; position: absolute; width: 15px; height: 15px;
+            background-color: inherit; border-radius: 50%;
+        }
+        .mouse-heart::before { top: -7.5px; left: 0; }
+        .mouse-heart::after { left: 7.5px; top: 0; }
+        @keyframes fadeOutHeart {
+            0% { opacity: 1; transform: rotate(-45deg) scale(1); }
+            100% { opacity: 0; transform: rotate(-45deg) scale(0.3) translateY(20px); }
+        }
+/* هذا الجزء يضبط العناصر لجميع الأجهزة */
+@media (max-width: 768px) {
+    /* 1. يجعل الحاويات مرنة وتأخذ عرض الشاشة */
+    .main-card, .container, .paper {
+        width: 95% !important;
+        flex-direction: column !important; /* يخلي العناصر فوق بعض في الجوال */
+        height: auto !important;
+        margin: 20px auto !important;
+        padding: 15px !important;
+    }
+
+    /* 2. يضبط حجم الصور والفيديو لتناسب الجوال */
+    .left-panel, .right-panel, .video-box {
+        width: 100% !important;
+        height: auto !important;
+        min-height: 250px !important;
+    }
+
+    /* 3. يضبط حجم الخطوط عشان ما تطلع برا الشاشة */
+    h1, .main-text {
+        font-size: 1.8rem !important;
+    }
+
+    /* 4. يثبت السهم في مكان مريح لليد في الجوال */
+    .floating-arrow {
+        width: 50px !important;
+        height: 50px !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        font-size: 1.2rem !important;
+    }
+}
+    </style>
+</head>
+<body onload="document.body.style.opacity='1'">
+
+    <div class="paper">
+        <h2>My one and only❤️...</h2>
+        <p>
+           I just wanna say thank you for being my home for making me happy for always making me smile, and for making me feel loved. you make my days brighter and my heart calmer. with you, everything feels safe and beautiful thank you for your patience, your kindness, and the way you always understand me. i’m so grateful to have you in my life. i hope we can keep growing together and creating more beautiful memories I love u baby more than you think happy Valentine’s Day❤️.<br><br>        </p>
+
+        <div class="signature">Your wifey,<br>Raghad</div>
+    </div>
+
+    <a href="end.html" class="side-arrow">➔</a>
+
+    <script>
+        $(document).on('mousemove touchmove', function(e) {
+            var x, y;
+            if (e.type === 'touchmove') {
+                x = e.originalEvent.touches[0].pageX;
+                y = e.originalEvent.touches[0].pageY;
+            } else {
+                x = e.pageX; y = e.pageY;
+            }
+            var heart = $('<div class="mouse-heart"></div>');
+            heart.css({ left: (x - 7) + 'px', top: (y - 7) + 'px' });
+            $('body').append(heart);
+            setTimeout(function() { heart.remove(); }, 1000);
+        });
+    </script>
+
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        var audio = document.getElementById("bgMusic");
+        var savedTime = sessionStorage.getItem('musicTime');
+        if (savedTime) { audio.currentTime = parseFloat(savedTime); }
+        setInterval(function() { sessionStorage.setItem('musicTime', audio.currentTime); }, 100);
+        audio.play().catch(function() {
+            document.addEventListener('click', () => audio.play(), {once: true});
+        });
+    </script>
+<style>
+  /* إخفاء السهم الأصلي لتجربة أفضل */
+  body { cursor: crosshair; } 
+
+  .glowing-heart {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    /* اللون أبيض والتوهج أبيض ناصع */
+    color: #ffffff; 
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff; 
+    font-size: 18px;
+    animation: fadeAndUp 0.8s ease-out forwards;
+    user-select: none;
+  }
+
+  @keyframes fadeAndUp {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      /* ترتفع وتتحرك قليلاً لليمين بشكل عشوائي */
+      transform: translate(10px, -60px) scale(0.3);
+    }
+  }
+
+  /* إخفاء التأثير في الجوال لراحة المستخدم */
+  @media (max-width: 768px) {
+    .glowing-heart { display: none; }
+    body { cursor: auto; }
+  }
+</style>
+
+<script>
+  document.addEventListener('mousemove', function(e) {
+    const heart = document.createElement('div');
+    // استخدمت إيموجي القلب الأبيض ليعطيكِ اللون الأبيض الصافي
+    heart.innerHTML = '🤍'; 
+    heart.className = 'glowing-heart';
+    
+    // وضع القلب في مكان الماوس بالضبط
+    heart.style.left = (e.clientX - 10) + 'px';
+    heart.style.top = (e.clientY - 10) + 'px';
+    
+    // أحجام عشوائية بسيطة لتبدو كالنجوم
+    const size = Math.random() * 12 + 8;
+    heart.style.fontSize = size + 'px';
+    
+    document.body.appendChild(heart);
+    
+    // حذفها بعد انتهاء الحركة
+    setTimeout(() => {
+      heart.remove();
+    }, 800);
+  });
+</script>
+</body>
+</html>

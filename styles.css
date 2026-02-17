@@ -1,0 +1,181 @@
+:root {
+  /* الخلفية أحمر غامق */
+  --bg: #4a0404; 
+  
+  /* الكتابة أبيض */
+  --white: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.72);
+  --soft: rgba(255,255,255,.55);
+  
+  --shadow: 0 20px 60px rgba(0,0,0,.45);
+  --ease: cubic-bezier(.2,.8,.2,1);
+
+  --red: #7b0f12;
+  --red2: #5f0b0d;
+  --paper: #efe7d8;
+  --paper2: #f6f0e7;
+}
+
+/* حل مشكلة الشاشة البيضاء: التأكد من أن الطول 100% */
+*{box-sizing:border-box}
+html,body{
+  height:100%;
+  margin:0;
+  padding:0;
+  background-color: var(--bg); /* لضمان عدم ظهور بياض */
+}
+
+body{
+  font-family:"Playfair Display", serif;
+  overflow:hidden; 
+}
+
+.page{
+  height:100vh;
+  width:100%;
+  display:flex;
+}
+
+/* التنسيق الخاص بالخلفية الحمراء */
+.theme-black{ 
+  background: radial-gradient(1200px 600px at 70% 40%, rgba(255,255,255,.05), transparent 60%), var(--bg); 
+}
+
+.enter{ animation: pageIn .7s var(--ease) both; }
+
+@keyframes pageIn{
+  from{ opacity:0; transform: translateY(18px); filter: blur(6px); }
+  to{ opacity:1; transform: translateY(0); filter: blur(0); }
+}
+
+.stage{
+  width:min(1100px, 92vw);
+  margin:auto;
+  display:grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 36px;
+  align-items:center;
+  padding: 26px 0;
+}
+
+.hero-right{ justify-self:end; text-align:left; width:min(520px, 92vw); }
+.hero-left{ justify-self:start; width:min(520px, 92vw); display:flex; justify-content:center; }
+
+.title-stack{ position:relative; margin-bottom:18px; }
+.title-serif{
+  color: var(--white);
+  font-size: clamp(52px, 7vw, 90px);
+  letter-spacing: 2px;
+  line-height:.9;
+}
+.title-script{
+  color: var(--white);
+  font-family:"Great Vibes", cursive;
+  font-size: clamp(72px, 9vw, 120px);
+  line-height:.75;
+  margin-top:-6px;
+}
+.subtitle{
+  color: var(--muted);
+  font-family:"Great Vibes", cursive;
+  font-size: 26px;
+  margin-top: 6px;
+}
+
+.prompt{
+  color: var(--muted);
+  font-size:16px;
+  margin: 14px 0 18px;
+}
+
+.pill-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 14px 28px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  color: var(--white);
+  text-decoration:none;
+  font-weight:600;
+  letter-spacing:1px;
+  background: rgba(255,255,255,.06);
+  box-shadow: var(--shadow);
+  transition: transform .2s var(--ease), background .2s var(--ease);
+}
+
+.pill-btn:hover{ transform: translateY(-2px); background: rgba(255,255,255,.1); }
+
+.cake{
+  width:min(520px, 90vw);
+  opacity:.95;
+  filter: drop-shadow(0 18px 40px rgba(0,0,0,.5));
+  animation: float 3.2s var(--ease) infinite alternate;
+}
+
+@keyframes float{
+  from{ transform: translateY(0); }
+  to{ transform: translateY(-10px); }
+}
+
+/* باقي التنسيقات لضمان عدم حدوث أخطاء */
+.flourish{
+  height:2px; width:240px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+  margin-top: 18px;
+}
+/* --- كود دعم الجوال والآيباد (Responsive) --- */
+
+@media (max-width: 850px) {
+  body {
+    overflow-y: auto; /* السماح بالتمرير في الجوال إذا كان المحتوى طويلاً */
+  }
+
+  .stage {
+    /* تحويل العرض من عمودين إلى صف واحد */
+    grid-template-columns: 1fr; 
+    gap: 40px;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .hero-right {
+    order: 2; /* وضع النص تحت الكيكة */
+    justify-self: center;
+    text-align: center;
+  }
+
+  .hero-left {
+    order: 1; /* وضع الكيكة فوق */
+    justify-self: center;
+  }
+
+  .title-serif {
+    font-size: clamp(40px, 12vw, 60px); /* ضبط حجم كلمة HAPPY */
+  }
+
+  .title-script {
+    font-size: clamp(60px, 15vw, 90px); /* ضبط حجم كلمة Valentine's */
+  }
+
+  .flourish {
+    margin: 18px auto; /* توسيط الخط المزخرف */
+  }
+
+  .pill-btn {
+    width: 100%; /* الزر يأخذ عرض الشاشة تقريباً ليسهل ضغطه */
+    max-width: 280px;
+  }
+
+  .cake {
+    width: 85vw; /* تكبير حجم الكيكة لتناسب عرض الجوال */
+    max-width: 400px;
+  }
+}
+
+/* تعديل إضافي للشاشات الصغيرة جداً (مثل آيفون SE) */
+@media (max-width: 400px) {
+  .title-serif { font-size: 35px; }
+  .title-script { font-size: 55px; }
+  .subtitle { font-size: 20px; }
+}

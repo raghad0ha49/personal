@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Special for you</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #4a0404; 
+      --white: rgba(255,255,255,.92);
+      --ease: cubic-bezier(.2,.8,.2,1);
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at center, #5f0b0d, #3a0a0c);
+      color: var(--white);
+      font-family: "Playfair Display", serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .center-stage {
+      position: relative;
+      text-align: center;
+      width: min(980px, 92vw);
+    }
+
+    /* الفيونكات الجانبية الأصلية */
+    .bow {
+      position: absolute;
+      width: clamp(100px, 15vw, 160px);
+      opacity: .9;
+    }
+    .bow-left { left: 0; top: 10%; transform: rotate(-10deg); }
+    .bow-right { right: 0; top: 5%; transform: rotate(8deg) scaleX(-1); }
+
+    .script-big {
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(54px, 10vw, 110px);
+      margin: 40px 0 26px;
+    }
+
+    .lace-hearts {
+      display: flex;
+      gap: 22px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    /* المربعات (القلوب) مع إمكانية إضافة صور */
+    .lace-heart {
+      width: 120px; /* كبرتها قليلاً لتظهر الصورة بوضوح */
+      height: 110px;
+      display: block;
+      /* تصميم الـ Lace الأصلي فوق الصورة */
+      background-color: rgba(255,255,255,0.1);
+      background-size: cover;
+      background-position: center;
+      border: 1px dashed rgba(255,255,255,.5);
+      border-radius: 22px;
+      cursor: pointer;
+      transition: 0.4s;
+      position: relative;
+      overflow: hidden;
+      animation: popIn 0.8s var(--ease) both;
+    }
+
+    /* طبقة لمعة فوق الصورة للحفاظ على شكل القلب */
+    .lace-heart::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1), transparent 70%);
+      pointer-events: none;
+    }
+
+    .lace-heart:hover {
+      transform: scale(1.1) rotate(2deg);
+      border-style: solid;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(.5) translateY(20px); }
+      to { opacity: 0.9; transform: scale(1) translateY(0); }
+    }
+
+    /* زر الرجوع للخلف (لصفحة الكود) */
+    .back-nav {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+      opacity: 0.6;
+    }
+/* هذا الجزء يضبط العناصر لجميع الأجهزة */
+@media (max-width: 768px) {
+    /* 1. يجعل الحاويات مرنة وتأخذ عرض الشاشة */
+    .main-card, .container, .paper {
+        width: 95% !important;
+        flex-direction: column !important; /* يخلي العناصر فوق بعض في الجوال */
+        height: auto !important;
+        margin: 20px auto !important;
+        padding: 15px !important;
+    }
+
+    /* 2. يضبط حجم الصور والفيديو لتناسب الجوال */
+    .left-panel, .right-panel, .video-box {
+        width: 100% !important;
+        height: auto !important;
+        min-height: 250px !important;
+    }
+
+    /* 3. يضبط حجم الخطوط عشان ما تطلع برا الشاشة */
+    h1, .main-text {
+        font-size: 1.8rem !important;
+    }
+
+    /* 4. يثبت السهم في مكان مريح لليد في الجوال */
+    .floating-arrow {
+        width: 50px !important;
+        height: 50px !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        font-size: 1.2rem !important;
+    }
+}
+  </style>
+</head>
+<body>
+
+  <main class="page">
+    <div class="center-stage">
+      <svg class="bow bow-left" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 100c-35-30-70-60-85-40c-15 20 20 50 70 60" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <path d="M100 100c35-30 70-60 85-40c15 20-20 50-70 60" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <path d="M95 98c-10 25-25 55-45 80" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <path d="M105 98c10 25 25 55 45 80" stroke="white" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+
+      <svg class="bow bow-right" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 100c-35-30-70-60-85-40c-15 20 20 50 70 60" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <path d="M100 100c35-30 70-60 85-40c15 20-20 50-70 60" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <path d="M95 98c-10 25-25 55-45 80" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <path d="M105 98c10 25 25 55 45 80" stroke="white" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+
+      <h1 class="script-big">Special for you</h1>
+
+      <div class="lace-hearts">
+        <a href="./reasons.html" class="lace-heart" style="background-image: url('img1.jpeg'); animation-delay: .1s"></a>
+        
+        <a href="./song.html" class="lace-heart" style="background-image: url('img2.jpeg'); animation-delay: .2s"></a>
+        
+        <a href="./letter.html" class="lace-heart" style="background-image: url('img3.jpeg'); animation-delay: .3s"></a>
+      </div>
+
+      <a class="back-nav" href="./index.html">← Back</a>
+    </div>
+  </main>
+<style>
+  /* إخفاء السهم الأصلي لتجربة أفضل */
+  body { cursor: crosshair; } 
+
+  .glowing-heart {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    /* اللون أبيض والتوهج أبيض ناصع */
+    color: #ffffff; 
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff; 
+    font-size: 18px;
+    animation: fadeAndUp 0.8s ease-out forwards;
+    user-select: none;
+  }
+
+  @keyframes fadeAndUp {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      /* ترتفع وتتحرك قليلاً لليمين بشكل عشوائي */
+      transform: translate(10px, -60px) scale(0.3);
+    }
+  }
+
+  /* إخفاء التأثير في الجوال لراحة المستخدم */
+  @media (max-width: 768px) {
+    .glowing-heart { display: none; }
+    body { cursor: auto; }
+  }
+</style>
+
+<script>
+  document.addEventListener('mousemove', function(e) {
+    const heart = document.createElement('div');
+    // استخدمت إيموجي القلب الأبيض ليعطيكِ اللون الأبيض الصافي
+    heart.innerHTML = '🤍'; 
+    heart.className = 'glowing-heart';
+    
+    // وضع القلب في مكان الماوس بالضبط
+    heart.style.left = (e.clientX - 10) + 'px';
+    heart.style.top = (e.clientY - 10) + 'px';
+    
+    // أحجام عشوائية بسيطة لتبدو كالنجوم
+    const size = Math.random() * 12 + 8;
+    heart.style.fontSize = size + 'px';
+    
+    document.body.appendChild(heart);
+    
+    // حذفها بعد انتهاء الحركة
+    setTimeout(() => {
+      heart.remove();
+    }, 800);
+  });
+</script>
+</body>
+</html>

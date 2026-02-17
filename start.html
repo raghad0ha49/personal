@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Happy Valentine's</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+
+</head>
+<body class="theme-black">
+  <main class="page enter">
+    <div class="stage">
+      <div class="hero-right">
+        <div class="title-stack">
+          <div class="title-serif">HAPPY</div>
+          <div class="title-script">Valentine's</div>
+          <div class="subtitle">My Love</div>
+          <div class="flourish"></div>
+        </div>
+
+        <p class="prompt"></p>
+
+        <a class="pill-btn navlink" href="./index.html" aria-label="Go to special page">
+    YES!!
+</a>
+      </div>
+
+      <div class="hero-left">
+        <!-- Cake line-art -->
+        <svg class="cake" viewBox="0 0 520 420" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M120 310c70 45 210 45 280 0" stroke="white" stroke-width="4" stroke-linecap="round"/>
+          <path d="M130 310c-15 55 25 85 130 90 110 5 165-25 150-90" stroke="white" stroke-width="4" stroke-linecap="round"/>
+          <path d="M150 260c50-35 170-35 220 0" stroke="white" stroke-width="4" stroke-linecap="round"/>
+          <path d="M150 260c-10 45 20 75 110 80 95 5 140-25 110-80" stroke="white" stroke-width="4" stroke-linecap="round"/>
+          <path d="M175 220c35-25 135-25 170 0" stroke="white" stroke-width="4" stroke-linecap="round"/>
+          <path d="M175 220c-8 32 18 55 85 58 70 3 105-20 85-58" stroke="white" stroke-width="4" stroke-linecap="round"/>
+
+          <!-- Candles -->
+          <g stroke="white" stroke-width="4" stroke-linecap="round">
+            <path d="M195 165v55"/><path d="M220 160v60"/><path d="M245 155v65"/>
+            <path d="M270 155v65"/><path d="M295 160v60"/><path d="M320 165v55"/>
+          </g>
+          <!-- Flames -->
+          <g stroke="white" stroke-width="3" fill="none">
+            <path d="M195 150c8-10 8-20 0-30c-8 10-8 20 0 30z"/>
+            <path d="M220 145c8-10 8-20 0-30c-8 10-8 20 0 30z"/>
+            <path d="M245 140c8-10 8-20 0-30c-8 10-8 20 0 30z"/>
+            <path d="M270 140c8-10 8-20 0-30c-8 10-8 20 0 30z"/>
+            <path d="M295 145c8-10 8-20 0-30c-8 10-8 20 0 30z"/>
+            <path d="M320 150c8-10 8-20 0-30c-8 10-8 20 0 30z"/>
+          </g>
+
+          <!-- Bows -->
+          <path d="M145 285c-35-25-35-55 0-45c15 5 25 20 20 35c-5 15-10 15-20 10z" stroke="white" stroke-width="4"/>
+          <path d="M145 285c25 10 40 35 25 55" stroke="white" stroke-width="4" stroke-linecap="round"/>
+
+          <path d="M375 255c35-25 35-55 0-45c-15 5-25 20-20 35c5 15 10 15 20 10z" stroke="white" stroke-width="4"/>
+          <path d="M375 255c-25 10-40 35-25 55" stroke="white" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </main>
+
+  <script src="./app.js"></script>
+<style>
+  /* إخفاء السهم الأصلي لتجربة أفضل */
+  body { cursor: crosshair; } 
+
+  .glowing-heart {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    /* اللون أبيض والتوهج أبيض ناصع */
+    color: #ffffff; 
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff; 
+    font-size: 18px;
+    animation: fadeAndUp 0.8s ease-out forwards;
+    user-select: none;
+  }
+
+  @keyframes fadeAndUp {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      /* ترتفع وتتحرك قليلاً لليمين بشكل عشوائي */
+      transform: translate(10px, -60px) scale(0.3);
+    }
+  }
+
+  /* إخفاء التأثير في الجوال لراحة المستخدم */
+  @media (max-width: 768px) {
+    .glowing-heart { display: none; }
+    body { cursor: auto; }
+  }
+</style>
+
+<script>
+  document.addEventListener('mousemove', function(e) {
+    const heart = document.createElement('div');
+    // استخدمت إيموجي القلب الأبيض ليعطيكِ اللون الأبيض الصافي
+    heart.innerHTML = '🤍'; 
+    heart.className = 'glowing-heart';
+    
+    // وضع القلب في مكان الماوس بالضبط
+    heart.style.left = (e.clientX - 10) + 'px';
+    heart.style.top = (e.clientY - 10) + 'px';
+    
+    // أحجام عشوائية بسيطة لتبدو كالنجوم
+    const size = Math.random() * 12 + 8;
+    heart.style.fontSize = size + 'px';
+    
+    document.body.appendChild(heart);
+    
+    // حذفها بعد انتهاء الحركة
+    setTimeout(() => {
+      heart.remove();
+    }, 800);
+  });
+</script>
+</body>
+</html>

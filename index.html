@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <script>
+        if (!document.referrer.includes("start.html") && !sessionStorage.getItem('visited')) {
+            sessionStorage.setItem('visited', 'true');
+            window.location.replace("start.html"); 
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Love Vault</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        body {
+            margin: 0; padding: 0; display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; background-color: #4a0d13;
+            font-family: 'Dancing Script', cursive; overflow: hidden; position: relative;
+        }
+
+        .hearts-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none; opacity: 1;
+        }
+
+        .heart { position: absolute; color: white; }
+
+        .card {
+            background-color: #1a1a1a; padding: 25px 30px; border-radius: 7px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9); text-align: center;
+            width: 100%; max-width: 444px; border: 1px solid rgba(255, 255, 255, 0.03);
+            animation: fadeIn 1.2s ease-in-out; z-index: 10; transition: opacity 1s ease;
+        }
+
+        /* تنسيق شاشة العداد */
+        #transitionOverlay {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: black;
+            z-index: 9999; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center; opacity: 0; transition: opacity 1s ease;
+        }
+
+        #timerText { font-size: 7rem; color: #ffffff; margin: 0; }
+        #promiseMsg { font-size: 2.2rem; color: #ffffff; opacity: 0; transition: opacity 1.5s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        h1 { color: #ffffff; font-size: clamp(2.5rem, 8vw, 3.9rem); margin-bottom: 40px; font-weight: 100; }
+
+        input[type="password"] {
+            width: 75%; padding: 18px; margin-bottom: 30px; border: none;
+            border-radius: 2px; background-color: #ffffff; font-size: 1.3rem;
+            text-align: center; outline: none;
+        }
+
+        button {
+            background-color: #8b1a24; color: white; border: none;
+            padding: 15px 60px; border-radius: 2px; font-size: 1.2rem;
+            cursor: pointer; transition: 0.4s; text-transform: uppercase;
+        }
+
+        .glowing-heart {
+            position: fixed; pointer-events: none; z-index: 9999;
+            color: #ffffff; text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff;
+            font-size: 18px; animation: fadeAndUp 0.8s ease-out forwards;
+        }
+        @keyframes fadeAndUp {
+            0% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(10px, -60px) scale(0.3); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hearts-container">
+        <span class="heart" style="top:5%; left:10%; font-size: 20px;">❤️</span>
+        <span class="heart" style="top:40%; left:5%; font-size: 30px;">❤️</span>
+        <span class="heart" style="top:80%; left:10%; font-size: 25px;">❤️</span>
+        <span class="heart" style="top:12%; left:80%; font-size: 22px;">❤️</span>
+    </div>
+
+    <div class="card" id="loginCard">
+        <h1>Enter the secret code</h1>
+        <input type="password" id="secretPass" placeholder="•••••••">
+        <br>
+        <button onclick="handleLogin()">Enter</button>
+    </div>
+
+    <div id="transitionOverlay">
+        <h2 id="timerText">5</h2>
+        <p id="promiseMsg">Before you continue, promise me something...</p>
+    </div>
+
+    <script>
+        function handleLogin() {
+            const code = document.getElementById('secretPass').value;
+            if (code === "1632025") {
+                const overlay = document.getElementById('transitionOverlay');
+                const card = document.getElementById('loginCard');
+                
+                // إخفاء الكارد وإظهار شاشة العداد
+                card.style.opacity = "0";
+                setTimeout(() => {
+                    card.style.display = 'none';
+                    overlay.style.display = 'flex';
+                    setTimeout(() => { overlay.style.opacity = "1"; }, 50);
+
+                    let timeLeft = 5;
+                    const timerDisplay = document.getElementById('timerText');
+                    const promiseMsg = document.getElementById('promiseMsg');
+
+                    const countdown = setInterval(() => {
+                        timeLeft--;
+                        timerDisplay.innerText = timeLeft;
+
+                        if (timeLeft === 3) {
+                            promiseMsg.style.opacity = "1";
+                        }
+
+                        if (timeLeft <= 0) {
+                            clearInterval(countdown);
+                            document.body.style.transition = "opacity 1.5s ease";
+                            document.body.style.opacity = "0";
+                            setTimeout(() => {
+                                window.location.href = "reveal.html"; 
+                            }, 1500);
+                        }
+                    }, 1000);
+                }, 1000);
+            } else {
+                alert("Try Again Baby ❤️");
+            }
+        }
+
+        document.addEventListener('mousemove', function(e) {
+            const h = document.createElement('div');
+            h.innerHTML = '🤍';
+            h.className = 'glowing-heart';
+            h.style.left = (e.clientX - 10) + 'px';
+            h.style.top = (e.clientY - 10) + 'px';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 800);
+        });
+    </script>
+</body>
+</html>

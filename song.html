@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Song For You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0; padding: 0; background-color: #4a0d13;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; font-family: Arial, sans-serif; overflow-x: hidden;
+            position: relative;
+        }
+        .main-card {
+            background-color: #fce4e4; width: 800%; max-width: 1000px;
+            min-height: 450px; border-radius: 30px; display: flex; 
+            padding: 20px; gap: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            box-sizing: border-box; z-index: 10;
+        }
+        .left-panel {
+            flex: 1; background-color: #fce4e4; border-radius: 20px;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; border: 3px solid #8b1a24; padding: 15px;
+        }
+        .user-image { width: 300%; max-width: 250px; border-radius: 15px; object-fit: cover; }
+        .right-panel { flex: 1.5; display: flex; flex-direction: column; gap: 15px; }
+        
+        /* حاوية الفيديو المحسنة */
+        .video-box { 
+            background-color: #000; flex: 2; border-radius: 20px; 
+            overflow: hidden; border: 7px solid #8b1a24; min-height: 200px;
+            position: relative;
+        }
+        .video-box iframe { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; 
+        }
+
+        .player-controls { background-color: #8b1a24; border-radius: 10px; color: white; padding: 17px; text-align: center; }
+        
+        .floating-arrow {
+            position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px;
+            background-color: #8b1a24; color: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; font-size: 1.5rem; z-index: 100; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .main-card { flex-direction: column; align-items: center; height: auto; margin: 40px 0; }
+            .left-panel, .right-panel { width: 100%; }
+        }
+/* هذا الجزء يضبط العناصر لجميع الأجهزة */
+@media (max-width: 768px) {
+    /* 1. يجعل الحاويات مرنة وتأخذ عرض الشاشة */
+    .main-card, .container, .paper {
+        width: 95% !important;
+        flex-direction: column !important; /* يخلي العناصر فوق بعض في الجوال */
+        height: auto !important;
+        margin: 20px auto !important;
+        padding: 15px !important;
+    }
+
+    /* 2. يضبط حجم الصور والفيديو لتناسب الجوال */
+    .left-panel, .right-panel, .video-box {
+        width: 100% !important;
+        height: auto !important;
+        min-height: 250px !important;
+    }
+
+    /* 3. يضبط حجم الخطوط عشان ما تطلع برا الشاشة */
+    h1, .main-text {
+        font-size: 1.8rem !important;
+    }
+
+    /* 4. يثبت السهم في مكان مريح لليد في الجوال */
+    .floating-arrow {
+        width: 50px !important;
+        height: 50px !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        font-size: 1.2rem !important;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="main-card">
+        <div class="left-panel">
+            <img src="your-photo.jpeg" class="user-image">
+            <p style="font-family: 'Dancing Script'; color: #8b1a24; font-size: 1.5rem;">For You</p>
+        </div>
+        <div class="right-panel">
+            <div class="video-box">
+                <iframe 
+                    src="https://youtu.be/tmSzRx9RYLk?si=Th9cNoBdd-hmsEoq" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <div class="player-controls">
+                <div style="font-size: 1.5rem; margin-bottom: 10px;">⏮  ▶  ⏭</div>
+                <div style="width: 100%; height: 5px; background: rgba(255,255,255,0.3); border-radius: 5px;">
+                    <div style="width: 50%; height: 100%; background: #fff;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="special.html" class="floating-arrow">➔</a>
+<style>
+  /* إخفاء السهم الأصلي لتجربة أفضل */
+  body { cursor: crosshair; } 
+
+  .glowing-heart {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    /* اللون أبيض والتوهج أبيض ناصع */
+    color: #ffffff; 
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff; 
+    font-size: 18px;
+    animation: fadeAndUp 0.8s ease-out forwards;
+    user-select: none;
+  }
+
+  @keyframes fadeAndUp {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      /* ترتفع وتتحرك قليلاً لليمين بشكل عشوائي */
+      transform: translate(10px, -60px) scale(0.3);
+    }
+  }
+
+  /* إخفاء التأثير في الجوال لراحة المستخدم */
+  @media (max-width: 768px) {
+    .glowing-heart { display: none; }
+    body { cursor: auto; }
+  }
+</style>
+
+<script>
+  document.addEventListener('mousemove', function(e) {
+    const heart = document.createElement('div');
+    // استخدمت إيموجي القلب الأبيض ليعطيكِ اللون الأبيض الصافي
+    heart.innerHTML = '🤍'; 
+    heart.className = 'glowing-heart';
+    
+    // وضع القلب في مكان الماوس بالضبط
+    heart.style.left = (e.clientX - 10) + 'px';
+    heart.style.top = (e.clientY - 10) + 'px';
+    
+    // أحجام عشوائية بسيطة لتبدو كالنجوم
+    const size = Math.random() * 12 + 8;
+    heart.style.fontSize = size + 'px';
+    
+    document.body.appendChild(heart);
+    
+    // حذفها بعد انتهاء الحركة
+    setTimeout(() => {
+      heart.remove();
+    }, 800);
+  });
+</script>
+</body>
+</html>
